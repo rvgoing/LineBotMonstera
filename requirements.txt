@@ -10,3 +10,5 @@ APScheduler
 pytz    
 numpy
 pandas
+tensorflow
+scikit-learn
