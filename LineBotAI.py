@@ -9,8 +9,8 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 app = Flask(__name__)
 
 # LINE Bot credentials from the LINE Developers Console
-CHANNEL_SECRET = 'YOUR_CHANNEL_SECRET'  # Replace with your Channel Secret
-CHANNEL_ACCESS_TOKEN = 'YOUR_CHANNEL_ACCESS_TOKEN'  # Replace with your Channel Access Token
+CHANNEL_SECRET = 'LINE_CHANNEL_SECRET'  # Replace with your Channel Secret
+CHANNEL_ACCESS_TOKEN = 'LINE_CHANNEL_ACCESS_TOKEN'  # Replace with your Channel Access Token
 
 # Initialize LINE Bot API and Handler
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
