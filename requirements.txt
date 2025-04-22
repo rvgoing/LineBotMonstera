@@ -1,0 +1,8 @@
+flask
+line-bot-sdk
+openai
+gunicorn
+python-dotenv
+requests 
+APScheduler
+pytz
