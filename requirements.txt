@@ -1,8 +1,10 @@
 flask
+openai
+flask-cors  
 line-bot-sdk
 openai
 gunicorn
 python-dotenv
 requests 
 APScheduler
-pytz
+pytz    
