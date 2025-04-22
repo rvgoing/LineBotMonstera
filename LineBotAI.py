@@ -17,21 +17,22 @@ line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 
 # Webhook for receiving LINE events
-@app.route("/callback", methods=['POST'])
+
+@app.route("/callback", methods=["POST"])
 def callback():
-    # Get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
+    signature = request.headers.get("X-Line-Signature")
+    if not signature:
+        abort(400)
 
-    # Get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
 
-    # Verify the signature and handle the request
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
         abort(400)
-    return 'OK'
+
+    return "OK", 200
+
 
 # Event handler for text messages
 @handler.add(MessageEvent, message=TextMessage)
