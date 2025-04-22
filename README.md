@@ -14,6 +14,9 @@ The primary goal of this project is to empower plant enthusiasts and gardeners w
 - **Quick Replies**: Provides quick reply options for easy interaction.
 - **Image Upload**: Supports uploading plant images for classification or record-keeping. Advanced usage includes leveraging user feedback to improve the model's precision. When a user provides a new image that can definitively rectify a specific class, the system incorporates this data to retrain the model, resulting in an improved version.
 
+Line Hook
+https://monstera.pligent.com/callback
+
 ## Requirements
 
 - Python 3.7+
