@@ -82,6 +82,8 @@ def callback():
     f.write(body)
     f.close()
 
+
+
     # handle webhook body
     try:
         handler.handle(body, signature)
