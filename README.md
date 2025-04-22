@@ -81,6 +81,10 @@ The primary goal of this project is to empower plant enthusiasts and gardeners w
 ### APScheduler
 - Schedules reminders for plant care tasks.
 
+
+### APScheduler
+- Schedules reminders for plant care tasks.
+
 ## Quick Reply Options
 - Provides interactive buttons for users to select plant care parameters.
 
