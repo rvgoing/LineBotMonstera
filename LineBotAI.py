@@ -4,6 +4,9 @@ import json
 import urllib
 from glob import glob
 
+from dotenv import load_dotenv
+import os
+
 import numpy as np
 from tensorflow.keras.models import load_model
 import tensorflow as tf
@@ -11,6 +14,9 @@ import tensorflow_addons as tfa
 from PIL import Image, ImageOps
 from flask import Flask, request, abort
 # from flask_ngrok import run_with_ngrok
+
+
+
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -46,8 +52,11 @@ app = Flask(__name__, static_url_path = "/material" , static_folder = "./materia
 # 設定line_bot_api資訊
 # line_bot_api = LineBotApi('Btz6xnIBTrcc8lUlz9NOc0Q4/JpWNq0/SVLZ+GJWMUdo/YExOzFX2+gZ+ITe+S7Cr4LxSHsKfNy/3D1CjABRKDN9gR+vkvAc0oQvwZnp8HcJZsji1y5KcHsuLwLhLKlz7NgtQob+XpLgIsCdbmRSkAdB04t89/1O/w1cDnyilFU=')
 # handler = WebhookHandler('17b14650c110f87ad15c98edaaf49c0b')
-line_bot_api = LineBotApi('3v0P0QKM6SK5EtmW4tyzBZRgbenxgXjm9zNvPDvgOYZJRN/Z7gDp76rhOIMO/v/qmlZf6XFQGBlBC0v5sYPxcfU1JPl3i7ruOGNLn94HZgJZtnZbTojfwGANyD0Dy9rCNIH2HFXSYE9C90DMLsyjVAdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('79bffdb9e50e19336e79aad0679665fc')
+
+# line_bot_api = LineBotApi('3v0P0QKM6SK5EtmW4tyzBZRgbenxgXjm9zNvPDvgOYZJRN/Z7gDp76rhOIMO/v/qmlZf6XFQGBlBC0v5sYPxcfU1JPl3i7ruOGNLn94HZgJZtnZbTojfwGANyD0Dy9rCNIH2HFXSYE9C90DMLsyjVAdB04t89/1O/w1cDnyilFU=')
+# handler = WebhookHandler('79bffdb9e50e19336e79aad0679665fc')
+
+load_dotenv()  # Loads .env into environment variables
 
 line_bot_api = os.environ.get("LINE_CHANNEL_SECRET")
 handler = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
