@@ -5,6 +5,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, ImageMessage,TextMessage, TextSendMessage
 from utils import predict_image
+import numpy as np
 
 import requests
 
