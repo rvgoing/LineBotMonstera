@@ -42,6 +42,18 @@ def callback():
     return "OK", 200
 
 
+label_map = {
+    0: "曬傷",
+    1: "正常龜背芋",
+    2: "爛根加老化",
+    3: "病菌感染",
+    4: "非龜背芋"
+}
+
+label_index = int(np.argmax(output))  # 模型預測的類別 index
+confidence = float(np.max(output))    # 最高信心值
+label = label_map.get(label_index, "未知類別")
+
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
