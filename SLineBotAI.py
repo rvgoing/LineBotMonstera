@@ -89,7 +89,7 @@ def callback():
         print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
 
-    return 'OK'
+    return 'OX'
 
 # 告知handler，如果收到FollowEvent，則做下面的方法處理
 # @handler.add(FollowEvent)
