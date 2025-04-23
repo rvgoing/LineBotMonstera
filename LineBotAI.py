@@ -3,7 +3,7 @@ import os
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, ImageMessage, TextMessage,TextSendMessage
+from linebot.models import MessageEvent, ImageMessage,TextMessage, TextSendMessage
 from utils import predict_image
 
 import requests
@@ -58,18 +58,7 @@ def callback():
 #         abort(400)
 #     return 'OK',200
 
-# Event handler for image messages
-@handler.add(MessageEvent, message=ImageMessage)
-def handle_image_message(event):
-    message_content = line_bot_api.get_message_content(event.message.id)
-    image_data = b''.join(chunk for chunk in message_content.iter_content())
-
-    label, confidence = predict_image(image_data)
-    reply_text = f"我預測這是類別：{label}，信心值：{confidence:.2f}"
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-
-# Event handler for text messages   
+# Event handler for text messages
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # Reply with a simple text message
