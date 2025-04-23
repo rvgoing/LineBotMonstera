@@ -2,6 +2,7 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 import io
+from io import BytesIO
 
 
 # 定義你的類別對應
