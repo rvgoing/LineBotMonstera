@@ -4,7 +4,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, ImageMessage,TextMessage, TextSendMessage
-from utils import predict_image
+from utils import predict_image,predict_image_from_bytes
 import numpy as np
 
 import requests
