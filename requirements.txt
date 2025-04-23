@@ -1,6 +1,7 @@
-Flask
-tensorflow
-tensorflow-addons
+flask
+line-bot-sdk
+tensorflow  # TFLite 也在裡面，不需要額外裝
+Pillow      # 用來處理圖片
 numpy
 Pillow
 gunicorn
