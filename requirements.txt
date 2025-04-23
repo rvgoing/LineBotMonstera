@@ -12,3 +12,4 @@ numpy
 pandas
 tensorflow
 scikit-learn
+tensorflow_addons
