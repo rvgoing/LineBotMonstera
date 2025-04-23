@@ -1103,5 +1103,9 @@ def handle_post_message(event):
                 pass
 
 # 執行line主程式
+# if __name__ == "__main__":
+#     app.run()
+
 if __name__ == "__main__":
-    app.run()
+    # Run Flask app
+    app.run(debug=True, port=5000)
