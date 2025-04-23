@@ -4,7 +4,6 @@ import json
 import urllib
 from glob import glob
 
-from dotenv import load_dotenv
 import os
 
 import numpy as np
@@ -56,10 +55,9 @@ app = Flask(__name__, static_url_path = "/material" , static_folder = "./materia
 # line_bot_api = LineBotApi('3v0P0QKM6SK5EtmW4tyzBZRgbenxgXjm9zNvPDvgOYZJRN/Z7gDp76rhOIMO/v/qmlZf6XFQGBlBC0v5sYPxcfU1JPl3i7ruOGNLn94HZgJZtnZbTojfwGANyD0Dy9rCNIH2HFXSYE9C90DMLsyjVAdB04t89/1O/w1cDnyilFU=')
 # handler = WebhookHandler('79bffdb9e50e19336e79aad0679665fc')
 
-load_dotenv()  # Loads .env into environment variables
 
-line_bot_api = os.environ.get("LINE_CHANNEL_SECRET")
-handler = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
+line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
+handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
 # 設定時區
 taiwan_tz = pytz.timezone('Asia/Taipei')
