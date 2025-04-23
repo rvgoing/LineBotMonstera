@@ -42,6 +42,15 @@ def callback():
     return "OK", 200
 
 
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_image_message(event):
+    message_content = line_bot_api.get_message_content(event.message.id)
+    image_data = b''.join(chunk for chunk in message_content.iter_content())
+
+    label, confidence = predict_image(image_data)
+    reply_text = f"我預測這是類別：{label}，信心值：{confidence:.2f}"
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
 
 # def callback():
 #     # Get X-Line-Signature header value
