@@ -1,14 +1,14 @@
 import os
-
+import sys
+import requests
+from io import BytesIO
 from flask import Flask, request, abort
+from PIL import Image
+import torch
+from torchvision import models, transforms
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, ImageMessage,TextMessage, TextSendMessage
-from utils import predict_image,predict_image_from_bytes
-import numpy as np
-
-import requests
-
+from linebot.models import MessageEvent, ImageMessage, TextSendMessage
 
 
 # Initialize Flask app
@@ -24,6 +24,40 @@ app = Flask(__name__)
 # Initialize LINE Bot API and Handler
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+
+
+# 載入模型和類別名稱
+MODEL_PATH = 'convnext_tiny_best.pth'
+checkpoint = torch.load(MODEL_PATH, map_location=torch.device('cpu'))
+
+# 初始化模型架構
+model = models.convnext_tiny(weights=None)
+model.classifier[2] = torch.nn.Linear(model.classifier[2].in_features, len(checkpoint['class_names']))
+model.load_state_dict(checkpoint['model_state_dict'])
+model.eval()
+
+# 類別名稱自動取得
+class_names = checkpoint['class_names']
+
+# 預處理流程
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.485, 0.456, 0.406],
+                         [0.229, 0.224, 0.225])
+])
+
+def predict_image(image):
+    img = image.convert("RGB")
+    img_tensor = transform(img).unsqueeze(0)
+
+    with torch.no_grad():
+        output = model(img_tensor)
+        probabilities = torch.nn.functional.softmax(output[0], dim=0)
+        confidence, predicted_class = torch.max(probabilities, 0)
+
+    label = class_names[predicted_class.item()]
+    return label, confidence.item()
 
 
 # Webhook for receiving LINE events
@@ -46,12 +80,19 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
+    # 取得圖片內容
     message_content = line_bot_api.get_message_content(event.message.id)
-    image_data = b''.join(chunk for chunk in message_content.iter_content())
+    image = Image.open(BytesIO(message_content.content))
 
-    label, confidence = predict_image_from_bytes(image_data)
-    reply_text = f"我預測這是類別：{label}，信心值：{confidence:.2f}"
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+    # 進行預測
+    label, confidence = predict_image(image)
+
+    # 回傳結果給使用者
+    reply_text = f"預測類別：{label}\n信心值：{confidence * 100:.2f}%"
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=reply_text)
+    )
 
 
 # def callback():
